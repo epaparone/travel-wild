@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>Travel Wild</title>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width'>
+        <link href='main.css' rel='stylesheet' type='text/css'/>
+        <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+        <script src='script.js'></script>
+    </head>
+    <body>
+        <header>
+            <h1>Travel Wild</h1>
+            <nav>
+                <ul id=js-nav-list>
+                    <li>Search Results</li>
+                    <li>My Trips</li>
+                    <li>New Search</li>
+                    <li>New Trip</li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section class='home-screen'>
+                <form>
+                    <h2>Search for trails</h2>
+                    <legend>Search by state</legend>
+                    <label for='location'>
+                        <input type='text' class='location-input' name='location' required>
+                    </label>
+                    <label for='length'>
+                        <input type='number' class='length-input' name='length' value='10' min='1' max='500' required>
+                    </label>
+                    <label for='submit'>
+                        <input type='submit' class='submit-button' name='submit' value='submit'>
+                    </label>
+                </form>
+            </section>
+            <section class='results-screen'>
+                <h3>Search Results</h3>
+                <section class='results-list'>
+                    <img class='listing-img' src='https://images.unsplash.com/photo-1570793005719-fbebd3a350aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80' alt='trails'>
+                    <h4>Bear Lake Trail</h4>
+                    <ul class='details-list'>
+                        <li>Location</li>
+                        <li>Mileage</li>
+                    </ul>
+                </section>
+                <section class='results-list'>
+                    <img class='listing-img' src='https://images.unsplash.com/photo-1470396866819-07324c4f45f7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80' alt='trails'>
+                    <h4>Thor's Hammer Trail</h4>
+                    <ul class='details-list'>
+                        <li>Location</li>
+                        <li>Mileage</li>
+                    </ul>
+                </section>
+                <section class='results-list'>
+                    <img class='listing-img' src='https://images.unsplash.com/photo-1542676619-b087258ad046?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80' alt='trails'>
+                    <h4>The Narrows Trail</h4>
+                    <ul class='details-list'>
+                        <li>Location</li>
+                        <li>Mileage</li>
+                    </ul>
+                </section>
+            </section>
+            <section class='details-screen'>
+                <h3>Bear Lake Trail</h3>
+                <img class='details-img' src='https://images.unsplash.com/photo-1570793005719-fbebd3a350aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80' alt='trails'>
+                <ul class='details-list'>
+                    <li>Location</li>
+                    <li>Mileage</li>
+                    <li><a href='/.com'>More Info</a></li>
+                </ul>
+                <button>Add to Trip</button>
+                <p>Paragraph of details about trail:
+                Lorem ipsum dolor sit amet, consectetur 
+                adipiscing elit, sed do eiusmod tempor incididunt 
+                ut labore et dolore magna aliqua.</p>
+                <img class='details-img' src='https://images.unsplash.com/photo-1551411444-d4d4b91e729e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80' alt='mountains'>
+            </section>
+            <section class='trip-screen'>
+                <h3>Colorado-Utah Roadtrip</h3>
+                <section class='trip-list'>
+                    <img class='listing-img' src='https://images.unsplash.com/photo-1570793005719-fbebd3a350aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80' alt='trails'>
+                    <h4>Bear Lake Trail</h4>
+                    <ul class='details-list'>
+                        <li>Location</li>
+                        <li>Mileage</li>
+                    </ul>
+                </section>
+                <section class='trip-list'>
+                    <img class='listing-img' src='https://images.unsplash.com/photo-1470396866819-07324c4f45f7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80' alt='trails'>
+                    <h4>Thor's Hammer Trail</h4>
+                    <ul class='details-list'>
+                        <li>Location</li>
+                        <li>Mileage</li>
+                    </ul>
+                </section>
+                <section class='trip-list'>
+                    <img class='listing-img' src='https://images.unsplash.com/photo-1542676619-b087258ad046?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80' alt='trails'>
+                    <h4>The Narrows Trail</h4>
+                    <ul class='details-list'>
+                        <li>Location</li>
+                        <li>Mileage</li>
+                    </ul>
+                </section>
+                <div class='js-route-buttons'>
+                    <button>Show Me the Best Route</button>
+                </div>
+            </section>
+            <section class='route-screen'>
+                <section class='route-list'>
+                    <img class='listing-img' src='https://images.unsplash.com/photo-1542676619-b087258ad046?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80' alt='trails'>
+                    <h4>The Narrows Trail</h4>
+                    <ul class='details-list'>
+                        <li>Location</li>
+                        <li>Mileage</li>
+                    </ul>
+                </section>
+                <section class='route-list'>
+                        <img class='listing-img' src='https://images.unsplash.com/photo-1470396866819-07324c4f45f7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80' alt='trails'>
+                        <h4>Thor's Hammer Trail</h4>
+                        <ul class='details-list'>
+                            <li>Location</li>
+                            <li>Mileage</li>
+                        </ul>
+                    </section>
+                <h3>Colorado-Utah Roadtrip</h3>
+                <section class='route-list'>
+                    <img class='listing-img' src='https://images.unsplash.com/photo-1570793005719-fbebd3a350aa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80' alt='trails'>
+                    <h4>Bear Lake Trail</h4>
+                    <ul class='details-list'>
+                        <li>Location</li>
+                        <li>Mileage</li>
+                    </ul>
+                </section>
+            </section>
+        </main>
+    </body>
+</html>
