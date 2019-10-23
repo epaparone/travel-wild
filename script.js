@@ -2,15 +2,17 @@
 
 // these functions will all implement the MVP
 
-// declare required constants
+// declare required constants & variables
 const geoCodeKey = 'ycWWwntyfO8LTLjS5vXZ2uJElCAJmLw9';
 const geoBaseUrl = 'https://www.mapquestapi.com/geocoding/v1/address';
 
 const trailKey = '200620674-9b895fe414554bb6ca1a37052449aac1';
 const trailBaseUrl = 'https://www.hikingproject.com/data/get-trails';
+const trailDetailsBaseUrl = 'https://www.hikingproject.com/data/get-trails-by-id';
 
-const routeKey = geoCodeKey;
-const routeBaseUrl = 'https://www.mapquestapi.com/directions/v2/optimizedroute';
+const weatherKey = 'a7c578ed900dbc08522103d320517f3d';
+const weatherAppId = '5e55630a';
+const weatherBaseUrl = 'http://api.weatherunlocked.com/api/forecast';
 
 // this group of functions controls the search & user input to display trails search results
 
@@ -19,6 +21,9 @@ function watchForm(responseJson) {
     // adds an event listener to our form
     $('.submit-button').on('click', function() {
         event.preventDefault();
+
+        // deletes previous DOM additions - allows users to search multiple times & only see current data
+        $('.js-results-list').empty();
 
         // passes the user input into getGeoCode -> passes result to getTrails -> passes result to displayTrails
         getGeoCode();
@@ -94,10 +99,6 @@ function getTrails(responseJson) {
 
     console.log(trailUrl);
 
-    /*let trailHeaders = new Headers({
-        'Access-Control-Allow-Origin': 'https://www.mapquestapi.com/'
-    });*/
-
     fetch(trailUrl)
         .then(response => {
             if (response.ok) {
@@ -114,8 +115,25 @@ function getTrails(responseJson) {
 // after submitting the form, the user should see a list of trails for their desired location without any additional clicks
 function displayTrails(responseJson) {
     // this function accesses the results from getTrails & adds html to the .results-screen
-    console.log(responseJson);
+    console.log(responseJson); 
 
+    // iterates through the results object & adds a listing per item
+    // accesses the desired results, creates html string
+    for (let i = 0; i < responseJson.trails.length; i++) {
+        $('.js-results-list').append(
+            `<section class='results-list-item'>
+                <img class='listing-img' src='${responseJson.trails[i].imgMedium}' alt='${responseJson.trails[i].name} photo'>
+                <h4 class='js-trail-name'>${responseJson.trails[i].name}</h4>
+                <p>${responseJson.trails[i].summary}</p>
+                <ul class='details-list'>
+                    <li>Location: ${responseJson.trails[i].location}</li>
+                    <li>Mileage: ${responseJson.trails[i].length} miles</li>
+                    <li>Ascent: ${responseJson.trails[i].ascent} ft</li>
+                </ul>
+                <button class='js-show-details' value='${responseJson.trails[i].id}'>Learn More</button>
+            </section>`
+        );
+    };
     
     // toggles the trails result list to display it
     console.log('display trails working');
@@ -125,54 +143,129 @@ function displayTrails(responseJson) {
 
 
 // this group of functions handles displaying trail details
-
 // the user should be able to view more details about any trail included in the list
+// by clicking on a specific trail, the user should see details on that trail
+// accesses trail details for the desired trail
+
+function handleDetailsPage() {
+    $('.js-results-list').on('click', '.js-show-details', function() {
+        // toggles the trails result list to hide it
+        $('.results-screen').addClass('hide');
+
+        // gets trail details & adds the getTrailDetails html .on(click) to .details-screen
+        getTrailDetails();
+
+        // toggles the details view to display it
+        $('.details-screen').removeClass('hide');
+    });
+}
+
 function getTrailDetails() {
-    // needs to have getTrails results passed in - accesses getTrails results
-    // display more info about trails than the displayTrails list
-    // creates html for the trail details
+    let hikingProjectId = $('.js-show-details').val().toString();
+    console.log(hikingProjectId);
+
+    const params = {
+        ids: hikingProjectId,
+        key: trailKey
+    };
+
+    const trailDetailsQuery = formatQueryParams(params);
+    const trailDetailsUrl = trailDetailsBaseUrl + '?' + trailDetailsQuery;
+
+    console.log(trailDetailsUrl);
+
+    fetch(trailDetailsUrl)
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            } else {
+                throw new Error(response.statusText);
+            }
+        })
+        .then(responseJson => displayTrailDetails(responseJson))
+        .catch(error => alert('Something went wrong. Try again.'))
     console.log('get trail details working');
 }
 
-// by clicking on a specific trail, the user should see details on that trail
-function displayTrailDetails() {
-    // adds the getTrailDetails html .on(click) to .details-screen
-    // toggles the trails result list to hide it
-    // toggles the details view to display it
-    getTrailDetails();
+
+function displayTrailDetails(responseJson) {
+    // display more info about trails than the displayTrails list
+    console.log(responseJson);
+
+    // creates html for the trail details
+    $('.js-details-main').append(
+        `<h3>${responseJson.trails[0].name}</h3>
+        <img class='details-img' src='${responseJson.trails[0].imgMedium}' alt='${responseJson.trails[0].name} photo'>
+        <p>${responseJson.trails[0].summary}</p>
+        <ul class='details-list'>
+            <li>Location: ${responseJson.trails[0].location}</li>
+            <li>Length: ${responseJson.trails[0].length} miles</li>
+            <li>Elevation: ${responseJson.trails[0].high} ft above sea level</li>
+            <li>Ascent: ${responseJson.trails[0].ascent} ft</li>
+            <li>Descent: ${responseJson.trails[0].descent} ft</li>
+            <li><a href='${responseJson.trails[0].url}'>More Info</a></li>
+        </ul>
+        <button class='js-to-results'>Back to List</button>`
+    );
     console.log('display trail details working');
+    
+    // creates variable to pass to detail APIs
+    let locationDetails = `${responseJson.trails[0].latitude},${responseJson.trails[0].longitude}`;
+    let trailName = `${responseJson.trails[0].name}`;
+
+    // passes weather API location details variable
+    getWeather(locationDetails);
+
+    // passes
 }
 
 
+// calls to the weather api on a click on the details button, uses trail info
+function getWeather(locationDetails) {
+    let params = {
+        app_id: weatherAppId,
+        app_key: weatherKey
+    }
 
-// this group of functions handles adding/deleting trails from a trip, general controls & navigating between list and detail views
+    const weatherQuery = formatQueryParams(params);
+    const weatherUrl = weatherBaseUrl + '/' + locationDetails + '?' + weatherQuery;
 
-// the user should be able to navigate between the results & detail views
-function toggleToResults() {
-    // watches the results list button to go back to results list
-    // removes displayTrailDetails results from .details-screen
-    // toggles the details view to hide it
-    // toggles the trails result list to display it
-    console.log('toggle results working');
+    console.log(weatherUrl);
+
+    fetch(weatherUrl)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error(response.statusText);
+            }
+        })
+        .then(responseJson => displayWeather(responseJson))
+        .catch(error => alert('Something went wrong. Try again.'));
 }
 
-// the user should be able to add trails to their trip
-function addTrail() {
-    // watches the add trail button to add it to the trip list
-    // access data from getTrails to pass that to the trip list
-    // adds getTrails data to the a trip list array
-    // adds hide class to details screen & results screen to hide them regardless of origin
-    // toggles the trip list to display it
-    console.log('add trail working');
+// adds html to details page of weather data
+function displayWeather(responseJson) {
+    console.log(responseJson);
+
+    // create html for weather data
+    for (let i = 0; i < responseJson.Days.length; i++) {
+        $('.js-weather-section').append(
+            `<section class='js-weather-day'>
+                <h5>${responseJson.Days[i].date}</h5>
+                <ul class='weather-list'>
+                    <li>High: ${responseJson.Days[i].temp_max_f}&#8457</li>
+                    <li>Low: ${responseJson.Days[i].temp_min_f}&#8457</li>
+                    <li>Sunrise: ${responseJson.Days[i].sunrise_time}</li>
+                    <li>Sunset: ${responseJson.Days[i].sunset_time}</li>
+                    <li>Chance of Rain: ${responseJson.Days[i].prob_precip_pct}%</li>
+                    <li>Precipitation: ${responseJson.Days[i].precip_total_in} in</li>
+                </ul>
+            </section>`
+        );
+    };
 }
 
-// the user should be able to delete trails from their trip
-function removeTrail() {
-    // watches the delete trail button to remove it from the trip list
-    // removes data from the js trip list array
-    // removes the html from the dom
-    console.log('remove trail working');
-}
 
 // users should be able to start over & begin a new search
 function restartButton() {
@@ -184,39 +277,15 @@ function restartButton() {
 
 function handleControls() {
     // handles all major button controls
-    toggleToResults();
-    addTrail();
-    removeTrail();
     restartButton();
     console.log('control functions working');
 }
 
 
 
-// this group of functions handles getting an optimized route & directions
-
-// a user should be able to get an optimized route by clicking on a button
-function getRoute() {
-    // access addTrails data to pass to mq directions api
-    // prompts the user to specify their desired start & end points on their route
-    // calls on mq dir api using user specified inputs
-    // returns results - passes them to displayRoute
-    console.log('get route working');
-}
-
-function displayRoute() {
-    // accesses results from getRoute
-    // creates html of route info accessed from results
-    // toggles 
-    // toggles trip list to hide it
-    getRoute();
-    console.log('display route working');
-}
-
 $(document).ready(function() {
     watchForm();
+    handleDetailsPage();
     handleControls();
-    //displayTrails();
-    displayRoute();
     console.log('Ready - waiting for user action.');
 });
