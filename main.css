@@ -10,3 +10,11 @@ img {
 .hide {
     display: none;
 }
+
+.nav-list li {
+    list-style: none;
+    border: 1px black solid;
+    border-radius: 4px;
+    display: inline;
+    cursor: pointer;
+}
