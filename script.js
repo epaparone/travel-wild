@@ -10,9 +10,8 @@ const trailKey = '200620674-9b895fe414554bb6ca1a37052449aac1';
 const trailBaseUrl = 'https://www.hikingproject.com/data/get-trails';
 const trailDetailsBaseUrl = 'https://www.hikingproject.com/data/get-trails-by-id';
 
-const weatherKey = 'a7c578ed900dbc08522103d320517f3d';
-const weatherAppId = '5e55630a';
-const weatherBaseUrl = 'http://api.weatherunlocked.com/api/forecast';
+const weatherKey = 'f792d9fdc6be4710119c5eb5157bb27c';
+const weatherBaseUrl = 'https://api.weather.gov/points';
 
 const npsKey = 'NDAVUGL49uDwIJzHvSn1ckCz20RUMb2iz3wKbiig';
 const npsBaseUrl = 'https://developer.nps.gov/api/v1/parks';
@@ -257,13 +256,12 @@ function displayTrailDetails(responseJson) {
 function getWeather(locationDetails, nearbyLocation) {
     let weatherLocal = nearbyLocation;
 
-    let params = {
-        app_id: weatherAppId,
-        app_key: weatherKey
-    }
+    /*let params = {
+        query: weatherLocal
+    }*/
 
-    const weatherQuery = formatQueryParams(params);
-    const weatherUrl = weatherBaseUrl + '/' + locationDetails + '?' + weatherQuery;
+    //const currentWeatherQuery = formatQueryParams(params);
+    const weatherUrl = weatherBaseUrl + '/' + locationDetails;
 
     console.log(weatherUrl);
 
@@ -275,11 +273,28 @@ function getWeather(locationDetails, nearbyLocation) {
                 throw new Error(response.statusText);
             }
         })
-        .then(responseJson => displayWeather(responseJson, weatherLocal))
+        .then(responseJson => formatWeather(responseJson, weatherLocal))
         .catch(error => alert('Something went wrong. Try again.'));
 }
 
 // adds html to details page of weather data
+function formatWeather(responseJson, weatherLocal) {
+    console.log(responseJson);
+
+    let weatherData = `${responseJson.properties.forecast}`;
+
+    fetch(weatherData)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error(response.statusText);
+            }
+        })
+        .then(responseJson => displayWeather(responseJson, weatherLocal))
+        .catch(error => alert('Something went wrong. Try again.'));
+}
+
 function displayWeather(responseJson, weatherLocal) {
     console.log(responseJson);
 
@@ -288,22 +303,21 @@ function displayWeather(responseJson, weatherLocal) {
         `<h4>Upcoming Forecast for ${weatherLocal}</h4>`
     );
 
-    for (let i = 0; i < responseJson.Days.length; i++) {
+    for (let i = 0; i <= 4; i += 2) {
         $('.js-weather-section').append(
             `<section class='js-weather-day'>
-                <h5>${responseJson.Days[i].date}</h5>
+                <h5>${responseJson.properties.periods[i].name}</h5>
                 <ul class='weather-list'>
-                    <li>High: ${responseJson.Days[i].temp_max_f}&#8457</li>
-                    <li>Low: ${responseJson.Days[i].temp_min_f}&#8457</li>
-                    <li>Sunrise: ${responseJson.Days[i].sunrise_time}</li>
-                    <li>Sunset: ${responseJson.Days[i].sunset_time}</li>
-                    <li>Chance of Rain: ${responseJson.Days[i].prob_precip_pct}%</li>
-                    <li>Precipitation: ${responseJson.Days[i].precip_total_in} in</li>
+                    <li>${responseJson.properties.periods[i].shortForecast}</li>
+                    <li>${responseJson.properties.periods[i].temperature}&#8457</li>
+                    <li>${responseJson.properties.periods[i].detailedForecast}}</li>
                 </ul>
             </section>`
         );
     };
 }
+
+
 
 // finds nearby NPS sites - searches by state as input by user
 function getNpsSites(stateInput) {
@@ -396,7 +410,7 @@ function displayMap(response) {
 function getVideos(trailName) {
     const params = {
         part: 'snippet',
-        //maxResults: 5,
+        maxResults: 3,
         q: trailName,
         safeSearch: 'strict',
         //videoCaption: 'closedCaption',
@@ -436,7 +450,7 @@ function displayVideo(responseJson, trailName) {
         $('.js-video-section').append(
             `<div class='video-link-container'>
                 <a href='https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}' target='_blank'>
-                    <img src='${responseJson.items[i].snippet.thumbnails.high.url}' alt='${responseJson.items[i].snippet.title} thumbnail'>
+                    <img src='${responseJson.items[i].snippet.thumbnails.medium.url}' alt='${responseJson.items[i].snippet.title} thumbnail'>
                     <h4 class='js-trail-name'>${responseJson.items[i].snippet.title}</h4>
                 </a>
                 <p>${responseJson.items[i].snippet.description}</p>
