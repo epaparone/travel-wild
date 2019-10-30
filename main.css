@@ -1,6 +1,29 @@
-* {
-    box-sizing: border-box;
-    font-family: futura-pt, sans-serif;
+/* Normalize CSS */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
 }
 
 /* js styling: */
@@ -9,6 +32,11 @@
 }
 
 /* section styling */
+* {
+    box-sizing: border-box;
+    font-family: futura-pt, sans-serif;
+}
+
 body {
     background-image: url(https://user-images.githubusercontent.com/39974667/67862216-9f7c7a00-fb19-11e9-928a-bf1b3ca51353.png);
     background-repeat: no-repeat;
@@ -32,6 +60,10 @@ form {
     margin: 60px 0;
 }
 
+footer {
+    margin-top: 40px;
+}
+
 /* text styling */
 h1 {
     font-family: cheap-pine-sans, sans-serif; 
@@ -52,7 +84,7 @@ h2 {
     letter-spacing: 3px;
     margin-bottom: 40px;
     text-align: center;
-    color: #306865;
+    color: #243A39;
 }
 
 h3 {
@@ -106,7 +138,7 @@ h5 {
 legend {
     text-align: center;
     display: block;
-    margin-bottom: 20px;
+    margin: 0 auto 20px auto;
 }
 
 #trail-name {
@@ -260,12 +292,16 @@ legend {
     .location-input, .state-input, .length-input {
         font-size: 14px;
     }
+
+    .logo-img {
+        width: 220px;
+    }
 }
 
 @media screen and (min-width: 1000px) {
     #details-main {
         display: flex;
-        flex-direction: row;
+        flex-direction: row-reverse;
         justify-content: space-evenly;
         margin-top: 20px;
     }
@@ -348,7 +384,16 @@ legend {
     #details-map, .thumbnail-img {
         width: 65%;
     }
+
     body {
         padding-bottom: 500px;
+    }
+
+    .details-list {
+        padding: 20px 0 20px 30%;
+    }
+
+    .logo-img {
+        width: 260px;
     }
 }

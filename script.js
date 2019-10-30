@@ -29,8 +29,9 @@ function watchForm() {
     // adds an event listener to our form
     $('.submit-button').on('click', function() {
         event.preventDefault();
-        // hides the search form
+        // hides the search form & adds the footer
         $('.home-screen').addClass('hide');
+        $('footer').removeClass('hide');
 
         // deletes previous DOM additions - allows users to search multiple times & only see current data
         $('.js-results-list').empty();
