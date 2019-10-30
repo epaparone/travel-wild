@@ -4,6 +4,7 @@
         <title>Travel Wild</title>
         <meta charset='utf-8'>
         <meta name='viewport' content='width=device-width'>
+        <link rel="stylesheet" href="https://use.typekit.net/jaj2quu.css">
         <link href='main.css' rel='stylesheet' type='text/css'/>
         <script src="https://code.jquery.com/jquery-3.4.1.js"
         integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -12,17 +13,17 @@
     </head>
     <body>
         <header>
-            <h1>Travel Wild</h1>
+            <img src='https://user-images.githubusercontent.com/39974667/67809423-92677880-fa90-11e9-807c-2504b9a1bae8.png' alt='travel wild logo' class='logo-img'>
             <nav>
                 <ul class=nav-list>
-                    <li class='js-new-search'>New Search</li>
+                    <li class='js-new-search' id='search-button'>New Search</li>
                 </ul>
             </nav>
         </header>
         <main>
             <section class='home-screen'>
                 <form>
-                    <h2>Search for trails</h2>
+                    <h1>Search for trails</h1>
                     <legend>Search by town, state & number of trails</legend>
                     <label for='town'>
                         <input type='text' class='location-input' name='town'>
@@ -87,33 +88,40 @@
                         <input type='number' class='length-input' name='length' value='10' min='1' max='500' required>
                     </label>
                     <label for='submit'>
-                        <input type='submit' class='submit-button' name='submit' value='submit'>
+                        <input type='submit' class='submit-button' name='submit' value='Submit'>
                     </label>
                 </form>
             </section>
             <section class='results-screen hide'>
-                <h3>Search Results</h3>
+                <h2>Search Results</h2>
                 <section class='js-results-list'>
                     
                 </section>
             </section>
             <section class='details-screen hide'>
-                <section class='js-details-main'>
-                    
-                </section>
-                <section class='js-weather-section'>
-                    
-                </section>
-                <section class='js-nps-section'>
+                <section id='details-main' class='js-details-main'> 
+                    <section id='map-sect' class='js-map-section'>
+                    </section>
+                </section> 
 
+                <section id='nps-sect' class='js-nps-section'>
+                    <section class='nps-list'>
+
+                    </section>
                 </section>
-                <section class='js-map-section'>
+
+                <section id='video-sect' class='js-video-section'>
+                    <section class='video-list'>
                     
-                </section>
-                <section class='js-video-section'>
-                
+                    </section>
                 </section>
             </section>
         </main>
+
+        <!-- 
+        <footer>
+            <img src='https://user-images.githubusercontent.com/39974667/67862216-9f7c7a00-fb19-11e9-928a-bf1b3ca51353.png' alt='abstract mountains' class='footer-img'>
+        </footer>
+        -->
     </body>
 </html>

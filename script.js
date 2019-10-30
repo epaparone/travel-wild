@@ -142,20 +142,20 @@ function displayTrails(responseJson) {
             $('.js-results-list').append(
                 `<section class='results-list-item'>
                     <img class='listing-img' src='${responseJson.trails[i].imgMedium}' alt='${responseJson.trails[i].name} photo'>
-                    <h4 class='js-trail-name'>${responseJson.trails[i].name}</h4>
-                    <p>${responseJson.trails[i].summary}</p>
+                    <h3 class='js-trail-name' id='trail-name'>${responseJson.trails[i].name}</h3>
+                    <p id='trail-desc'>${responseJson.trails[i].summary}</p>
                     <ul class='details-list'>
                         <li>Location: ${responseJson.trails[i].location}</li>
                         <li>Mileage: ${responseJson.trails[i].length} miles</li>
                         <li>Ascent: ${responseJson.trails[i].ascent} ft</li>
                     </ul>
-                    <button class='js-show-details' value='${responseJson.trails[i].id}'>Learn More</button>
+                    <button class='js-show-details' id='info-button' value='${responseJson.trails[i].id}'>Learn More</button>
                 </section>`
             );
         };
     } else {
         return $('.js-results-list').append(
-            `<h4>Sorry, we couldn't find any logged trails in this state. Please search again.</h4>`)
+            `<h3>Sorry, we couldn't find any logged trails in this state. Please search again.</h3>`)
     }
     
     
@@ -217,18 +217,23 @@ function displayTrailDetails(responseJson) {
     console.log(responseJson);
 
     // creates html for the trail details
-    $('.js-details-main').append(
-        `<h3>${responseJson.trails[0].name}</h3>
-        <img class='details-img' src='${responseJson.trails[0].imgMedium}' alt='${responseJson.trails[0].name} photo'>
-        <p>${responseJson.trails[0].summary}</p>
-        <ul class='details-list'>
-            <li>Location: ${responseJson.trails[0].location}</li>
-            <li>Length: ${responseJson.trails[0].length} miles</li>
-            <li>Elevation: ${responseJson.trails[0].high} ft above sea level</li>
-            <li>Ascent: ${responseJson.trails[0].ascent} ft</li>
-            <li>Descent: ${responseJson.trails[0].descent} ft</li>
-            <li><a href='${responseJson.trails[0].url}' target='_blank'>More Info</a></li>
-        </ul>`
+    $('.details-screen').prepend(
+        `<h2 class='details-title'>${responseJson.trails[0].name}</h2>
+        <img class='details-img' src='${responseJson.trails[0].imgMedium}' alt='${responseJson.trails[0].name} photo'>`
+    );
+
+    $('.js-details-main').prepend(
+        `<div class='details-para'>
+            <p id='trail-desc-details'>${responseJson.trails[0].summary}</p>
+            <ul class='details-list'>
+                <li>Location: ${responseJson.trails[0].location}</li>
+                <li>Length: ${responseJson.trails[0].length} miles</li>
+                <li>Elevation: ${responseJson.trails[0].high} ft above sea level</li>
+                <li>Ascent: ${responseJson.trails[0].ascent} ft</li>
+                <li>Descent: ${responseJson.trails[0].descent} ft</li>
+                <li><a href='${responseJson.trails[0].url}' target='_blank'>More Info</a></li>
+            </ul>
+        </div>`
     );
     console.log('display trail details working');
     
@@ -236,9 +241,6 @@ function displayTrailDetails(responseJson) {
     let locationDetails = `${responseJson.trails[0].latitude},${responseJson.trails[0].longitude}`;
     let trailName = `${responseJson.trails[0].name}`;
     let nearbyLocation = `${responseJson.trails[0].location}`;
-
-    // passes weather API location details variable
-    getWeather(locationDetails, nearbyLocation);
 
     // passes location to nps api to get nearby national parks services sites
     let stateInput = ($('.state-input').val()).toString();
@@ -249,72 +251,6 @@ function displayTrailDetails(responseJson) {
 
     // passes trail name to youTube to get videos ~ 3
     getVideos(trailName);
-}
-
-
-// calls to the weather api on a click on the details button, uses trail info
-function getWeather(locationDetails, nearbyLocation) {
-    let weatherLocal = nearbyLocation;
-
-    /*let params = {
-        query: weatherLocal
-    }*/
-
-    //const currentWeatherQuery = formatQueryParams(params);
-    const weatherUrl = weatherBaseUrl + '/' + locationDetails;
-
-    console.log(weatherUrl);
-
-    fetch(weatherUrl)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error(response.statusText);
-            }
-        })
-        .then(responseJson => formatWeather(responseJson, weatherLocal))
-        .catch(error => alert('Something went wrong. Try again.'));
-}
-
-// adds html to details page of weather data
-function formatWeather(responseJson, weatherLocal) {
-    console.log(responseJson);
-
-    let weatherData = `${responseJson.properties.forecast}`;
-
-    fetch(weatherData)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error(response.statusText);
-            }
-        })
-        .then(responseJson => displayWeather(responseJson, weatherLocal))
-        .catch(error => alert('Something went wrong. Try again.'));
-}
-
-function displayWeather(responseJson, weatherLocal) {
-    console.log(responseJson);
-
-    // create html for weather data
-    $('.js-weather-section').prepend(
-        `<h4>Upcoming Forecast for ${weatherLocal}</h4>`
-    );
-
-    for (let i = 0; i <= 4; i += 2) {
-        $('.js-weather-section').append(
-            `<section class='js-weather-day'>
-                <h5>${responseJson.properties.periods[i].name}</h5>
-                <ul class='weather-list'>
-                    <li>${responseJson.properties.periods[i].shortForecast}</li>
-                    <li>${responseJson.properties.periods[i].temperature}&#8457</li>
-                    <li>${responseJson.properties.periods[i].detailedForecast}}</li>
-                </ul>
-            </section>`
-        );
-    };
 }
 
 
@@ -356,14 +292,17 @@ function displayNpsSites(responseJson, stateInput) {
 
     // creates html for nps section
     $('.js-nps-section').prepend(
-        `<h4>Looking for more hikes in ${stateInput}? Explore these National Parks Service sites.</h4>`
+        `<div class='h3-wrap'>
+            <h3>Explore More</h3>
+        </div>
+        <h5>More National Parks Service sites in ${stateInput}.</h5>`
     );
 
     for (let i = 0; i < responseJson.data.length; i++) {
-        $('.js-nps-section').append(
+        $('.nps-list').append(
             `<div class='nps-listing'>
-                <img src='${responseJson.data[i].images[0].url}' alt='${responseJson.data[i].images[0].altText}'>
-                <a href='${responseJson.data[i].url}'><h3>${responseJson.data[i].fullName}</h3></a>
+                <img class='details-img' src='${responseJson.data[i].images[0].url}' alt='${responseJson.data[i].images[0].altText}'>
+                <a class='details-link' href='${responseJson.data[i].url}'><h4>${responseJson.data[i].fullName}</h4></a>
                 <p>${responseJson.data[i].description}</p>
             </div>`
         )};
@@ -402,7 +341,10 @@ function displayMap(response) {
 
     // creates img containing map
     $('.js-map-section').append(
-        `<img class='map-details' src='${response.url}'>`
+        `<div class='h3-wrap'>
+            <h3>Nearby Area</h3>
+        </div>
+        <img class='details-img' id='map-details' src='${response.url}'>`
     );
 }
 
@@ -443,17 +385,20 @@ function displayVideo(responseJson, trailName) {
 
     // creates & adds video html
     $('.js-video-section').prepend(
-        `<h4>Videos related to ${trailName}:</h4>`
+        `<div class='h3-wrap'>
+            <h3>Videos</h3>
+        </div>
+        <h5>Related to ${trailName}:</h5>`
     );
 
     for (let i = 0; i < responseJson.items.length; i++) {
-        $('.js-video-section').append(
+        $('.video-list').append(
             `<div class='video-link-container'>
-                <a href='https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}' target='_blank'>
-                    <img src='${responseJson.items[i].snippet.thumbnails.medium.url}' alt='${responseJson.items[i].snippet.title} thumbnail'>
-                    <h4 class='js-trail-name'>${responseJson.items[i].snippet.title}</h4>
+                <a class='details-link' href='https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}' target='_blank'>
+                    <img class='thumbnail-img' src='${responseJson.items[i].snippet.thumbnails.medium.url}' alt='${responseJson.items[i].snippet.title} thumbnail'>
+                    <h4 class='video-title'>${responseJson.items[i].snippet.title}</h4>
                 </a>
-                <p>${responseJson.items[i].snippet.description}</p>
+                <p class='video-desc'>${responseJson.items[i].snippet.description}</p>
             </div>`
         );
     };

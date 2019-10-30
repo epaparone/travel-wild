@@ -1,20 +1,354 @@
 * {
     box-sizing: border-box;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: futura-pt, sans-serif;
 }
 
-img {
-    width: 40%;
-}
-
+/* js styling: */
 .hide {
     display: none;
 }
 
+/* section styling */
+body {
+    background-image: url(https://user-images.githubusercontent.com/39974667/67862216-9f7c7a00-fb19-11e9-928a-bf1b3ca51353.png);
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: 100%;
+    min-height: 600px;
+    padding-bottom: 300px;
+}
+
+form {
+    text-align: center;
+    display: block;
+    margin: 40px auto 0 auto;
+}
+
+.results-list-item {
+    margin: 50px 0;
+}
+
+#details-main, #map-sect, #video-sect, #nps-sect {
+    margin: 60px 0;
+}
+
+/* text styling */
+h1 {
+    font-family: cheap-pine-sans, sans-serif; 
+    font-size: 28px; 
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-family: cheap-pine-sans, sans-serif; 
+    font-size: 28px; 
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.details-title {
+    font-family: cheap-pine-sans, sans-serif; 
+    font-size: 36px; 
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+    text-align: center;
+    color: #306865;
+}
+
+h3 {
+    font-family: cheap-pine-sans, sans-serif; 
+    font-size: 24px; 
+    letter-spacing: 2px;
+    text-align: center;
+    margin: 0;
+}
+
+.h3-wrap {
+    background: linear-gradient(180deg,rgba(255, 255, 255, 0) 30%, rgba(96, 104, 59, .2) 30%);
+    display: block;
+    margin: 50px auto 20px auto;
+    padding: 0 10px 5px 10px;
+    text-align: center;
+    width: 150px;
+}
+
+h4 {
+    font-family: cheap-pine-sans, sans-serif; 
+    font-size: 22px; 
+    letter-spacing: 2px;
+    text-align: center;
+    display: block;
+    margin: 20px auto 10px auto;
+    width: 70%;
+    line-height: 30px;
+}
+
+h5 {
+    font-size: 20px;
+    display:  block;
+    margin: 0 auto 30px auto;
+    text-align: center;
+}
+
+.nav-list {
+    margin: 20px 0 60px 0;
+    padding: 0;
+    text-align: center;
+    font-size: 12px;
+}
+
 .nav-list li {
     list-style: none;
-    border: 1px black solid;
-    border-radius: 4px;
-    display: inline;
+    text-align: center;
+    padding: 2px 7px;
+}
+
+legend {
+    text-align: center;
+    display: block;
+    margin-bottom: 20px;
+}
+
+#trail-name {
+    font-family: cheap-pine-sans, sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+#trail-desc {
+    text-align: center;
+}
+
+.details-link {
+    text-decoration: none;
+    color: black;
     cursor: pointer;
+}
+
+.details-screen p {
+    width: 90%;
+    display: block;
+    margin: 5px auto 40px auto;
+}
+
+#trail-desc-details {
+    width: 90%;
+    display: block;
+    margin: 40px auto 10px auto;
+}
+
+.details-list {
+    padding-left: 20%;
+}
+
+/* img, input & button styling */
+.logo-img {
+    width: 180px;
+    display: block;
+    margin: 40px auto 0 auto;
+}
+
+.listing-img {
+    width: 70%;
+    display: block;
+    margin: 5px auto 30px auto;
+}
+
+.details-img {
+    width: 85%;
+    display: block;
+    margin: 0 auto;
+}
+
+.thumbnail-img {
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+}
+
+.footer-img {
+    width: 100%;
+}
+
+#search-button, .submit-button, #info-button {
+    font-family: cheap-pine-sans, sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    display: inline-block;
+    border: none;
+    background-color: rgba(48, 104, 101, .8);
+    cursor: pointer;
+    color: white;
+    border-radius: 6px;
+    padding: 3px 9px;
+}
+
+#search-button:hover, .submit-button:hover, #info-button:hover {
+    background-color: rgba(96, 104, 59);
+    color: white;
+}
+
+.submit-button {
+    display: block;
+    margin: 20px auto;
+}
+
+#info-button {
+    display: block;
+    margin: 5px auto;
+}
+
+.location-input, .state-input, .length-input {
+    border: lightsteelblue 1px solid;
+    background: white;
+    display: block;
+    margin: 10px auto;
+    text-align: center;
+}
+
+/* adding responsiveness */
+@media screen and (min-width: 760px) {
+    h1 {
+        font-size: 32px; 
+    }
+    
+    h2 {
+        font-size: 28px; 
+    }
+    
+    .details-title {
+        font-size: 40px; 
+    }
+    
+    h3 {
+        font-size: 26px; 
+    }
+    
+    h4 {
+        font-size: 24px; 
+    }
+    
+    h5 {
+        font-size: 24px;
+    }
+    
+    .nav-list {
+        font-size: 14px;
+    }
+    
+    legend {
+        font-size: 16px;
+    }
+    
+    #trail-name {
+        font-size: 24px;
+    }
+
+    #search-button, .submit-button, #info-button {
+        font-size: 16px;
+    }
+
+    p {
+        font-size: 18px;
+    }
+
+    #details-map, .thumbnail-img {
+        width: 50%;
+    }
+
+    .location-input, .state-input, .length-input {
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    #details-main {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        margin-top: 20px;
+    }
+
+    .details-para, #map-sect {
+        flex-shrink: 1;
+        flex-basis: 45%;
+        align-self: baseline;
+    }
+
+    .nps-list, .video-list {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+
+    .video-link-container, .nps-listing {
+        flex-shrink: 1;
+        flex-basis: 30%;
+        align-self: baseline;
+    }
+
+    h1 {
+        font-size: 36px; 
+    }
+    
+    h2 {
+        font-size: 32; 
+    }
+    
+    .details-title {
+        font-size: 44px; 
+    }
+    
+    h3 {
+        font-size: 30px; 
+    }
+
+    .h3-wrap {
+        width: 220px;
+    }
+    
+    h4 {
+        font-size: 28px; 
+    }
+    
+    h5 {
+        font-size: 28px;
+    }
+    
+    .nav-list {
+        font-size: 16px;
+    }
+    
+    legend {
+        font-size: 18px;
+    }
+    
+    #trail-name {
+        font-size: 28px;
+    }
+
+    #search-button, .submit-button, #info-button {
+        font-size: 16px;
+    }
+
+    .location-input, .state-input, .length-input {
+        font-size: 16px;
+    }
+
+    p {
+        font-size: 20px;
+    }
+
+    .details-list {
+        font-size: 20px;
+    }
+
+    #details-map, .thumbnail-img {
+        width: 65%;
+    }
+    body {
+        padding-bottom: 500px;
+    }
 }
