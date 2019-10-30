@@ -2,7 +2,7 @@
 Bloc API Hack Capstone
 
 ## Live App
-![Live App Link](https://github.com/epaparone/travel-wild)
+[Live App Link](https://epaparone.github.io/travel-wild/)
 
 ## Summary
 A web app for learning more about trails using the Hiking Project API, MapQuest API, NPS API, & YouTube API. Provides trail specifications, nearby National Parks Services sites, related YouTube videos, and a map of the nearby area.
