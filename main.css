@@ -203,7 +203,7 @@ legend {
     width: 100%;
 }
 
-#search-button, .submit-button, #info-button {
+.js-new-search, .submit-button, #info-button {
     font-family: cheap-pine-sans, sans-serif;
     font-size: 14px;
     letter-spacing: 1px;
@@ -216,7 +216,7 @@ legend {
     padding: 3px 9px;
 }
 
-#search-button:hover, .submit-button:hover, #info-button:hover {
+.js-new-search:hover, .submit-button:hover, #info-button:hover {
     background-color: rgba(96, 104, 59);
     color: white;
 }
@@ -277,7 +277,7 @@ legend {
         font-size: 24px;
     }
 
-    #search-button, .submit-button, #info-button {
+    .js-new-search, .submit-button, #info-button {
         font-size: 16px;
     }
 

@@ -41,7 +41,6 @@ function watchForm() {
 
         // reveals results section
         $('.results-screen').removeClass('hide');
-    console.log('watch form working');
     })
 }
 
@@ -49,7 +48,6 @@ function watchForm() {
 function formatQueryParams(params) {
     const queryItems = Object.keys(params)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
-    console.log(queryItems);
     return queryItems.join('&');
 }
 
@@ -58,9 +56,6 @@ function getGeoCode() {
     let townInput = ($('.location-input').val()).toString();
     let stateInput = ($('.state-input').val()).toString();
     let userSearch = townInput + ', ' + stateInput;
-
-    console.log(stateInput);
-    console.log(userSearch);
 
     const params = {
         key: geoCodeKey,
@@ -72,8 +67,6 @@ function getGeoCode() {
     // pass in query string
     const geoQuery = formatQueryParams(params);
     const geoUrl = geoBaseUrl + '?' + geoQuery;
-
-    console.log(geoUrl);
 
     // takes the user-input location & submits that as part of a call to the mq geocode API
     // then this api responds by sending back the appr geocode - this is the value passed to getTrails
@@ -87,20 +80,14 @@ function getGeoCode() {
         })
         .then(responseJson => getTrails(responseJson))
         .catch(error => alert('Something went wrong. Try again.'));
-    console.log('get geocode working');
 }
 
 // the app should send geocode results to hiking project api to get trails for corresponding geocode
 function getTrails(responseJson) {
     // this function automatically runs after the geocode is returned
-    console.log(responseJson);
-
     // pulls necessary data from responseJson
     let latitude = `${responseJson.results[0].locations[0].latLng.lat}`;
     let longitude = `${responseJson.results[0].locations[0].latLng.lng}`;
-
-    console.log(latitude);
-    console.log(longitude);
 
     let listLength = ($('.length-input').val()).toString();
 
@@ -116,8 +103,6 @@ function getTrails(responseJson) {
     const trailQuery = formatQueryParams(params);
     const trailUrl = trailBaseUrl + '?' + trailQuery;
 
-    console.log(trailUrl);
-
     fetch(trailUrl)
         .then(response => {
             if (response.ok) {
@@ -128,14 +113,11 @@ function getTrails(responseJson) {
         })
         .then(responseJson => displayTrails(responseJson))
         .catch(error => alert('Something went wrong. Try again.'))
-    console.log('get trails working');
 }
 
 // after submitting the form, the user should see a list of trails for their desired location without any additional clicks
 function displayTrails(responseJson) {
     // this function accesses the results from getTrails & adds html to the .results-screen
-    console.log(responseJson); 
-
     // iterates through the results object & adds a listing per item
     // accesses the desired results, creates html string
     if (responseJson.trails.length !== 0) {
@@ -161,7 +143,6 @@ function displayTrails(responseJson) {
     
     
     // toggles the trails result list to display it
-    console.log('display trails working');
 }
 
 
@@ -187,8 +168,6 @@ function handleDetailsPage() {
 }
 
 function getTrailDetails(hikingProjectId) {
-    console.log(hikingProjectId);
-
     const params = {
         ids: hikingProjectId,
         key: trailKey
@@ -196,8 +175,6 @@ function getTrailDetails(hikingProjectId) {
 
     const trailDetailsQuery = formatQueryParams(params);
     const trailDetailsUrl = trailDetailsBaseUrl + '?' + trailDetailsQuery;
-
-    console.log(trailDetailsUrl);
 
     fetch(trailDetailsUrl)
         .then(response => {
@@ -209,14 +186,11 @@ function getTrailDetails(hikingProjectId) {
         })
         .then(responseJson => displayTrailDetails(responseJson))
         .catch(error => alert('Something went wrong. Try again.'))
-    console.log('get trail details working');
 }
 
 
 function displayTrailDetails(responseJson) {
     // display more info about trails than the displayTrails list
-    console.log(responseJson);
-
     // creates html for the trail details
     $('.details-screen').prepend(
         `<h2 class='details-title'>${responseJson.trails[0].name}</h2>
@@ -236,7 +210,6 @@ function displayTrailDetails(responseJson) {
             </ul>
         </div>`
     );
-    console.log('display trail details working');
     
     // creates variable to pass to detail APIs
     let locationDetails = `${responseJson.trails[0].latitude},${responseJson.trails[0].longitude}`;
@@ -258,7 +231,6 @@ function displayTrailDetails(responseJson) {
 
 // finds nearby NPS sites - searches by state as input by user
 function getNpsSites(stateInput) {
-    console.log(stateInput);
 
     const params = {
         stateCode: stateInput,
@@ -271,8 +243,6 @@ function getNpsSites(stateInput) {
     // create & pass in query string
     let npsQuery = formatQueryParams(params);
     let npsUrl = npsBaseUrl + '?' + npsQuery;
-
-    console.log(npsUrl);
 
     // fetches nps data
     fetch(npsUrl)
@@ -289,7 +259,6 @@ function getNpsSites(stateInput) {
 
 // displays nearby NPS sites
 function displayNpsSites(responseJson, stateInput) {
-    console.log(responseJson);
 
     // creates html for nps section
     $('.js-nps-section').prepend(
@@ -321,8 +290,6 @@ function getMap(locationDetails, stateInput, nearbyLocation) {
     const mapQuery = formatQueryParams(params);
     const mapUrl = mapBaseUrl + '?' + mapQuery;
 
-    console.log(mapUrl);
-
     // takes the user-input location & submits that as part of a call to the mq geocode API
     // then this api responds by sending back the appr geocode - this is the value passed to getTrails
     fetch(mapUrl)
@@ -338,7 +305,6 @@ function getMap(locationDetails, stateInput, nearbyLocation) {
 
 // displays static map
 function displayMap(response) {
-    console.log(response);
 
     // creates img containing map
     $('.js-map-section').append(
@@ -364,8 +330,6 @@ function getVideos(trailName) {
     const videoQuery = formatQueryParams(params);
     const videoUrl = videoBaseUrl + '?' + videoQuery;
 
-    console.log(videoUrl);
-
     // takes the user-input location & submits that as part of a call to the mq geocode API
     // then this api responds by sending back the appr geocode - this is the value passed to getTrails
     fetch(videoUrl)
@@ -382,7 +346,6 @@ function getVideos(trailName) {
 
 // displays videos
 function displayVideo(responseJson, trailName) {
-    console.log(responseJson);
 
     // creates & adds video html
     $('.js-video-section').prepend(
@@ -412,13 +375,11 @@ function restartButton() {
     $('.js-new-search').click(function() {
         location.reload();
     });
-    console.log('restart button working');
 }
 
 function handleControls() {
     // handles all major button controls
     restartButton();
-    console.log('control functions working');
 }
 
 
@@ -427,5 +388,4 @@ $(document).ready(function() {
     watchForm();
     handleDetailsPage();
     handleControls();
-    console.log('Ready - waiting for user action.');
 });
