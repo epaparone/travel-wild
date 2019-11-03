@@ -27,7 +27,7 @@
                     <fieldset>
                         <legend>Search by town, state & number of trails</legend>
                         <label for='town'>
-                            <input type='text' class='location-input' name='town'>
+                            <input type='text' class='location-input' id='town' name='town'>
                         </label>
                         <label for='state'>
                                 <select name="state" class='state-input' id="state" required>
@@ -93,6 +93,9 @@
                         </label>
                     </fieldset>
                 </form>
+            </section>
+            <section class='js-loader hide'>
+                    <div class="loader"></div>
             </section>
             <section class='results-screen hide'>
                 <h2>Search Results</h2>

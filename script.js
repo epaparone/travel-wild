@@ -40,7 +40,7 @@ function watchForm() {
         getGeoCode();
 
         // reveals results section
-        $('.results-screen').removeClass('hide');
+        $('.js-loader').removeClass('hide');
     })
 }
 
@@ -141,8 +141,11 @@ function displayTrails(responseJson) {
             `<h3>Sorry, we couldn't find any logged trails in this state. Please search again.</h3>`)
     }
     
+    // hides the loader
+    $('.js-loader').addClass('hide');
     
     // toggles the trails result list to display it
+    $('.results-screen').removeClass('hide');
 }
 
 
