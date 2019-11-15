@@ -22,16 +22,16 @@
         </header>
         <main>
             <section class='home-screen'>
-                <form>
+                <form class='find-trails'>
                     <h1>Search for trails</h1>
                     <fieldset>
                         <legend>Search by town, state & number of trails</legend>
-                        <label for='town'>
-                            <input type='text' class='location-input' id='town' name='town'>
+                        <aside>Note: all form fields are required</aside>
+                        <label for='town'>Nearby Town:
+                            <input type='text' class='location-input' id='town' name='town' value='location' required>
                         </label>
-                        <label for='state'>
-                                <select name="state" class='state-input' id="state" required>
-                                    <option class='js-state' value="" selected="selected">Select a State</option>
+                        <label for='state'>State:
+                                <select name="state" class='state-input' id="state">
                                     <option class='js-state' value="AL">Alabama</option>
                                     <option class='js-state' value="AK">Alaska</option>
                                     <option class='js-state' value="AZ">Arizona</option>
@@ -85,7 +85,7 @@
                                     <option class='js-state' value="WY">Wyoming</option>
                                 </select>
                             </label>
-                        <label for='length'>
+                        <label for='length'>Number of Trails:
                             <input type='number' id='length' class='length-input' name='length' value='10' min='1' max='500' required>
                         </label>
                         <label for='submit'>
@@ -122,12 +122,21 @@
                 </section>
             </section>
         </main>
-        <footer class='hide'>
+        <footer>
             <nav>
-                <ul class=nav-list>
+                <ul id='footer-new-search' class='nav-list hide'>
                     <li class='js-new-search'>New Search</li>
                 </ul>
             </nav>
+            <section class='footer-info'>
+                <ul class='footer-nav'>
+                        <li><a class='contact-link' id='footer-email-link' href='mailto:paparoneelizabeth@gmail.com' target="_blank"><img class='contact-icon' src='https://user-images.githubusercontent.com/39974667/65378405-50842f00-dca7-11e9-801e-573dd1e8b6ee.png' alt='email icon'></a></li>
+                        <li><a class='contact-link' id='footer-linkedin-link' href='https://www.linkedin.com/in/elizabeth-paparone-374b4a131/' target="_blank"><img class='contact-icon' src='https://user-images.githubusercontent.com/39974667/65378400-48c48a80-dca7-11e9-9ba7-cddfc31e018c.png' alt='linkedin icon'></a></li>
+                        <li><a class='contact-link' id='footer-github-link' href='https://github.com/epaparone' target="_blank"><img class='contact-icon' src='https://user-images.githubusercontent.com/39974667/65378398-48c48a80-dca7-11e9-8d96-4ecc5e4ac35c.png' alt='github icon'></a></li>
+                        <li><a class='contact-link' id='footer-wolf&wing-creative-link' href='https://www.wolfandwingcreative.com/' target="_blank"><img class='contact-icon' src='https://user-images.githubusercontent.com/39974667/65378402-48c48a80-dca7-11e9-8a1d-652138923ad4.png' alt='wolf & wing creative icon'></a></li>
+                </ul>
+            </section>
+        </footer>
         </footer>
     </body>
 </html>

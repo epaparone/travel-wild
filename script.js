@@ -27,11 +27,12 @@ const videoBaseUrl = 'https://www.googleapis.com/youtube/v3/search';
 // user should be able to submit a location to a form to search for trails
 function watchForm() {
     // adds an event listener to our form
-    $('.submit-button').on('click', function() {
+    $('.submit-button').click(function() {
         event.preventDefault();
+
         // hides the search form & adds the footer
         $('.home-screen').addClass('hide');
-        $('footer').removeClass('hide');
+        $('#footer-new-search').removeClass('hide');
 
         // deletes previous DOM additions - allows users to search multiple times & only see current data
         $('.js-results-list').empty();
@@ -111,8 +112,21 @@ function getTrails(responseJson) {
                 throw new Error(response.statusText);
             }
         })
-        .then(responseJson => displayTrails(responseJson))
+        .then(responseJson => {
+            if (responseJson.trails.length < 1) {
+                noTrails();
+            }
+            else {
+                displayTrails(responseJson);
+            }
+        })
         .catch(error => alert('Something went wrong. Try again.'))
+}
+
+function noTrails() {
+    $('.results-screen').removeClass('hide')
+        .html(`<p class='no-trails'>There are no trails logged in this location yet. Try searching in a different location.</p>`);
+    $('.js-loader').addClass('hide');
 }
 
 // after submitting the form, the user should see a list of trails for their desired location without any additional clicks
@@ -125,14 +139,14 @@ function displayTrails(responseJson) {
             $('.js-results-list').append(
                 `<section class='results-list-item'>
                     <img class='listing-img' src='${responseJson.trails[i].imgMedium}' alt='${responseJson.trails[i].name} photo'>
-                    <h3 class='js-trail-name' id='trail-name'>${responseJson.trails[i].name}</h3>
-                    <p id='trail-desc'>${responseJson.trails[i].summary}</p>
+                    <h3 class='trail-name'>${responseJson.trails[i].name}</h3>
+                    <p class='trail-desc'>${responseJson.trails[i].summary}</p>
                     <ul class='details-list'>
                         <li>Location: ${responseJson.trails[i].location}</li>
                         <li>Mileage: ${responseJson.trails[i].length} miles</li>
                         <li>Ascent: ${responseJson.trails[i].ascent} ft</li>
                     </ul>
-                    <button class='js-show-details' id='info-button' value='${responseJson.trails[i].id}'>Learn More</button>
+                    <button class='js-show-details' value='${responseJson.trails[i].id}'>Learn More</button>
                 </section>`
             );
         };
@@ -202,7 +216,7 @@ function displayTrailDetails(responseJson) {
 
     $('.js-details-main').prepend(
         `<div class='details-para'>
-            <p id='trail-desc-details'>${responseJson.trails[0].summary}</p>
+            <p class='trail-desc-details'>${responseJson.trails[0].summary}</p>
             <ul class='details-list'>
                 <li>Location: ${responseJson.trails[0].location}</li>
                 <li>Length: ${responseJson.trails[0].length} miles</li>
@@ -314,7 +328,7 @@ function displayMap(response) {
         `<div class='h3-wrap'>
             <h3>Nearby Area</h3>
         </div>
-        <img class='details-img' id='map-details' src='${response.url}'>`
+        <img class='details-img' src='${response.url}' alt='trail area map'>`
     );
 }
 
